@@ -12,18 +12,56 @@ import numpy as np
 #  FUNCIONES
 #----------------------------------
 
+def actualizar_visibilidad_celdas(*args):
+    size = matriz_size.get() + 2
+    for i in range(4):
+        for j in range (4):
+           estado =  'normal' if (i < size and j < size) else 'disabled'
+           mat_a[i][j].delete(0, tk.END)
+
+        estado_vec= 'normal' if i< size else 'disabled'
+        mat_b[i][0].config(state=estado_vec)
+        mat_x[i][0].config(state=estado_vec)
+        if estado_vec == 'disabled'
+            mat_b[i][0].delete(0, tk.END)
+            mat_x[i][0].delete(0, tk.END)
+
+def borrarTodo():
+    tx_det.delete(0, tk.END)
+    for i in range(4):
+        for j in range(4):
+            mat_a[i][j].delete(0, tk.END)
+        mat_b[i][0].delete(0, tk.END)
+        mat_x[i][0].delete(0, tk.END)
+    message.config(text="Todos los campos han sido limpiados.")
+
+
 
 
 #----------------------------------
 #  GRAFICO
 #----------------------------------
 def creaVentana():
-    global raiz
+    global raiz, matriz_size, tx_det, message, mat_a, mat_b, mat_x
     raiz = tk.Tk()
     raiz.geometry('820x420+200+200')
     raiz.configure(bg='black')
     raiz.title('Resolución de Sistemas de Ecuaciones Lineales - Regla de Cramer')
-    global mat_a, mat_b, mat_x
+
+
+# Selector de tamaño
+    matriz_size = tk.IntVar(raiz, value=0)
+    matriz_size.trace_add("write", actualizar_visibilidad_celdas)
+
+    rb_frame = tk.LabelFrame(raiz, text="Dimensión", fg="white", bg="black", padx=5, pady=5)
+    rb_frame.place(x=30, y=60, width=100, height=130)
+
+    opciones = [("2x2", 0), ("3x3", 1), ("4x4", 2)]
+    for text, val in opciones:
+        tk.Radiobutton(rb_frame, text=text, variable=matriz_size, value=val, 
+                       bg="black", fg="white", selectcolor="#333333",
+                       activebackground="black", activeforeground="white").pack(anchor=tk.W, pady=2)
+
 
     #matrizA
     ventana_mat_a = tk.LabelFrame(raiz, text='matriz A', fg="white", bg="black", padx=10, pady=10)
