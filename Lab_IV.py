@@ -154,7 +154,7 @@ def creaVentana():
     ventana_mat_b = tk.LabelFrame(raiz, text='matriz B', fg="black", padx=10, pady=10)
     ventana_mat_b.place(x=430, y=50)
 
-    mat_b = [[nome for _ in range(4)]]
+    mat_b = [[None for _ in range(4)]]
     for i in range(4):
         mat_b[i][0] = tk.Entry(ventana_mat_b, width=6, justify='center')
         mat_b[i][0].grid(row=i, column=0, padx=4, pady=4)
@@ -168,8 +168,27 @@ def creaVentana():
         mat_x[i][0] = tk.Entry(ventana_mat_x, width=8, justify='center')
         mat_x[i][0].grid(row=i, column=0, padx=4, pady=4)
 
+# Controles y Botones
+    b_calcular = tk.Button(raiz, text='Calcular Cramer', command=cramer, width=15, bg='#1f1f1f', fg='white', relief=tk.RAISED)
+    b_calcular.place(x=660, y=70)
 
+    b_det = tk.Button(raiz, text='Calcular Det(A)', command=calcularDeterminante, width=15, bg='#1f1f1f', fg='white')
+    b_det.place(x=660, y=110)
 
+    b_borrar = tk.Button(raiz, text='Borrar Todo', command=borrarTodo, width=15, bg='#1f1f1f', fg='white')
+    b_borrar.place(x=660, y=150)
+
+    # Determinante y Panel de Estado
+    tk.Label(raiz, text="Determinante:", bg='black', fg='white').place(x=430, y=260)
+    tx_det = tk.Entry(raiz, width=12, justify='center')
+    tx_det.place(x=530, y=260)
+
+    tk.Label(raiz, text="Estado / Ayuda:", fg="white", bg="black", font=('Helvetica', 9, 'bold')).place(x=30, y=290)
+    message = tk.Label(raiz, text="Cargue los coeficientes en A y b, luego presione 'Calcular Cramer'.", 
+                       fg="#4CAF50", bg="black", anchor="w", justify=tk.LEFT)
+    message.place(x=30, y=320)
+
+    actualizar_visibilidad_celdas()
     raiz.mainloop()
 
 if __name__ == "__main__":
