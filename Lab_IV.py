@@ -11,20 +11,59 @@ import numpy as np
 #----------------------------------
 #  FUNCIONES
 #----------------------------------
+def rta_x(A, b):
+    n = len(b)
+    D = np.linalg.det(A)
+    x = np.zeros(n)
+    for k in range(n):
+        Ak = A.copy()
+        Ak[:, k] = b
+        Dk = np.linalg.det(Ak)
+        x[k] = Dk / D 
+    return x
+
+def obtener_datos():
+    size = matriz_size.get() + 2
+    matriz_A = []
+    for i in range(size):
+        fila = []
+        for j in range(size):
+            val = mat_a[i][j].get().strip()
+            if not val:
+                raise ValueError(f"Falta ingresar el valor en A[{i+1}][{j+1}]")
+            fila.append(float(val))
+        matriz_A.append(fila)
+
+    vector_B = []
+    for i in range(size):
+        val = mat_b[i][0].get().strip()
+        if not val:
+            raise ValueError(f"Falta ingresar el valor en b[{i+1}]")
+        vector_B.append(float(val))
+
+    return np.array(matriz_A), np.array(vector_B), size
 
 def actualizar_visibilidad_celdas(*args):
+    """Habilita u deshabilita celdas según el tamaño seleccionado (2x2, 3x3, 4x4)"""
     size = matriz_size.get() + 2
     for i in range(4):
-        for j in range (4):
-           estado =  'normal' if (i < size and j < size) else 'disabled'
-           mat_a[i][j].delete(0, tk.END)
+        for j in range(4):
+            estado = 'normal' if (i < size and j < size) else 'disabled'
+            mat_a[i][j].config(state=estado)
+            if estado == 'disabled':
+                mat_a[i][j].delete(0, tk.END)
 
-        estado_vec= 'normal' if i< size else 'disabled'
+        estado_vec = 'normal' if i < size else 'disabled'
         mat_b[i][0].config(state=estado_vec)
         mat_x[i][0].config(state=estado_vec)
-        if estado_vec == 'disabled'
+        if estado_vec == 'disabled':
             mat_b[i][0].delete(0, tk.END)
             mat_x[i][0].delete(0, tk.END)
+
+def limpiar_resultados():
+    tx_det.delete(0, tk.END)
+    for i in range(4):
+        mat_x[i][0].delete(0, tk.END)
 
 def borrarTodo():
     tx_det.delete(0, tk.END)
