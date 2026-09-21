@@ -154,7 +154,7 @@ def creaVentana():
     ventana_mat_b = tk.LabelFrame(raiz, text='matriz B', fg="black", padx=10, pady=10)
     ventana_mat_b.place(x=430, y=50)
 
-    mat_b = [[None for _ in range(4)]]
+    mat_b = [[None] for _ in range(4)]
     for i in range(4):
         mat_b[i][0] = tk.Entry(ventana_mat_b, width=6, justify='center')
         mat_b[i][0].grid(row=i, column=0, padx=4, pady=4)
