@@ -43,6 +43,44 @@ def obtener_datos():
 
     return np.array(matriz_A), np.array(vector_B), size
 
+def cramer():
+    try:
+        matriz_A, vector_B, size = obtener_datos()
+        detA = np.linalg.det(matriz_A)
+
+        if abs(detA) < 1e-9:
+            message.config(text="¡Atención! El determinante es 0.\nEl sistema no tiene solución única.")
+            tx_det.delete(0, tk.END)
+            tx_det.insert(0, "0")
+            return
+
+        x_rta = rta_x(matriz_A, vector_B)
+        limpiar_resultados()
+
+        for i in range(size):
+            mat_x[i][0].config(state='normal')
+            mat_x[i][0].delete(0, tk.END)
+            mat_x[i][0].insert(0, str(round(x_rta[i], 4)))
+
+        tx_det.delete(0, tk.END)
+        tx_det.insert(0, str(round(detA, 4)))
+        message.config(text="Sistema resuelto exitosamente.")
+
+    except ValueError as ve:
+        messagebox.showwarning("Campos incompletos", str(ve))
+    except Exception as e:
+        messagebox.showerror("Error", f"Ocurrió un error inesperado:\n{e}")
+
+def calcularDeterminante():
+    try:
+        matriz_A, _, _ = obtener_datos()
+        det = np.linalg.det(matriz_A)
+        tx_det.delete(0, tk.END)
+        tx_det.insert(0, str(round(det, 4)))
+        message.config(text="Determinante calculado correctamente.")
+    except ValueError as ve:
+        messagebox.showwarning("Campos incompletos", str(ve))
+
 def actualizar_visibilidad_celdas(*args):
     """Habilita u deshabilita celdas según el tamaño seleccionado (2x2, 3x3, 4x4)"""
     size = matriz_size.get() + 2
@@ -129,6 +167,8 @@ def creaVentana():
     for i in range(4):
         mat_x[i][0] = tk.Entry(ventana_mat_x, width=8, justify='center')
         mat_x[i][0].grid(row=i, column=0, padx=4, pady=4)
+
+
 
     raiz.mainloop()
 
