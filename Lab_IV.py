@@ -1,6 +1,6 @@
 #---------------------------------------------------
 # Laboratorio N°4 
-# Integrantes: Bañares, Pablo
+# Integrantes: 
 #              Velazquez Cruz, Joel
 # Repo GitHub: https://github.com/jo-Ve-C1/Laboratorio4_Velazquez-Cruz-Joel_Info2.git
 #---------------------------------------------------
